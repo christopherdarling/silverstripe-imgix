@@ -216,8 +216,8 @@ class Imgix extends Image {
             return Parent::FillMax($width, $height);
         }
         $this->Fill($width, $height);
-        $this->setParameter('max-w', $this->getWidth());
-        $this->setParameter('max-h', $this->getHeight());
+        $this->setParameter('max-w', $this->getOrigWidth());
+        $this->setParameter('max-h', $this->getOrigHeight());
         return $this;
     }
 
@@ -272,7 +272,7 @@ class Imgix extends Image {
             return Parent::ScaleMaxWidth($width);
         }
         $this->ScaleWidth($width);
-        $this->setParameter('max-w', $this->getWidth());
+        $this->setParameter('max-w', $this->getOrigWidth());
         return $this;
     }
 
@@ -307,7 +307,7 @@ class Imgix extends Image {
             return Parent::ScaleMaxHeight($height);
         }
         $this->ScaleHeight($height);
-        $this->setParameter('max-h', $this->getHeight());
+        $this->setParameter('max-h', $this->getOrigHeight());
         return $this;
     }
 
@@ -325,8 +325,8 @@ class Imgix extends Image {
         if (Director::isDev() || !$this->config()->get('use_imgix')) {
             return Parent::CropWidth($width);
         }
-        if ($this->getWidth() > $width) {
-            $this->Fill($width, $this->getHeight());
+        if ($this->getOrigWidth() > $width) {
+            $this->Fill($width, $this->getOrigHeight());
         }
         return $this;
     }
@@ -345,8 +345,8 @@ class Imgix extends Image {
             return Parent::CropHeight($height);
         }
 
-        if ($this->getHeight() > $height) {
-            $this->Fill($height, $this->getWidth());
+        if ($this->getOrigHeight() > $height) {
+            $this->Fill($height, $this->getOrigWidth());
         }
         return $this;
     }
@@ -548,5 +548,54 @@ class Imgix extends Image {
             $this->setParameter('h', $height);
         }
         return $this;
+    }
+
+    public function getOrigWidth()
+    {
+        return parent::getWidth();
+    }
+
+    public function getOrigHeight()
+    {
+        return parent::getHeight();
+    }
+
+    /**
+     * @return [width, height]
+     */
+    protected function getDimensions()
+    {
+        $origWidth = $this->getOrigWidth();
+        $origHeight = $this->getOrigHeight();
+        $origRatio = $origWidth / ($origHeight ?: 1);
+
+        $width = $this->getParameter('w');
+        $height = $this->getParameter('h');
+
+        if ($width && $height) {
+            return [$width, $height];
+        } else if (!$height && $width) {
+            // We don't have a height but do have a width
+            $height = $origWidth / $origRatio;
+
+            return [$width, $height];
+        } else if (!$width && $height) {
+            // We don't have a width but do have a height
+            $width = $height * $origRatio;
+
+            return [$width, $height];
+        } else {
+            return [$origWidth, $origHeight];
+        }
+    }
+
+    public function getWidth()
+    {
+        return $this->getDimensions()[0];
+    }
+
+    public function getHeight()
+    {
+        return $this->getDimensions()[1];
     }
 }
