@@ -569,8 +569,8 @@ class Imgix extends Image {
         $origHeight = $this->getOrigHeight();
         $origRatio = $origWidth / ($origHeight ?: 1);
 
-        $width = $this->getParameter('w');
-        $height = $this->getParameter('h');
+        $width = $this->getParameter('w') || $this->getParameter('max-w');
+        $height = $this->getParameter('h') || $this->getParameter('max-h');
 
         if ($width && $height) {
             return [$width, $height];
