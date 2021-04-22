@@ -189,6 +189,19 @@ class Imgix extends Image {
      * @param integer $height Height to crop to
      * @return Image|null
      */
+    public function FillOrig($width, $height)
+    {
+        return parent::Fill($width, $height);
+    }
+
+    /**
+     * Resize and crop image to fill specified dimensions.
+     * Use in templates with $Fill
+     *
+     * @param integer $width Width to crop to
+     * @param integer $height Height to crop to
+     * @return Image|null
+     */
     public function Fill($width, $height)
     {
         if (Director::isDev() || !$this->config()->get('use_imgix')) {
