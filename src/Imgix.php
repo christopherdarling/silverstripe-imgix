@@ -487,7 +487,7 @@ class Imgix extends Image {
 
     public function setParameter($key, $value, $append = false)
     {
-        if (($originalParameters = explode(',', $this->getParameter($key))) && $append) {
+        if ($append && ($originalParameters = $this->getParameter($key)) && ($originalParameters = explode(',', $originalParameters))) {
             $originalParameters[] = $value;
             $parameters = implode(',', $originalParameters);
         } else {
