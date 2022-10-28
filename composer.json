@@ -6,7 +6,7 @@
     "require": {
         "silverstripe/vendor-plugin": "^1.0",
         "silverstripe/framework": "^4.0",
-        "imgix/imgix-php": "dev-master"
+        "imgix/imgix-php": "^3.1"
     },
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
