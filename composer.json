@@ -4,8 +4,8 @@
     "type": "silverstripe-vendormodule",
     "keywords": ["silverstripe", "CMS"],
     "require": {
-        "silverstripe/vendor-plugin": "^1.0",
-        "silverstripe/framework": "^4.0",
+        "silverstripe/vendor-plugin": "^2.0",
+        "silverstripe/framework": "^5.0",
         "imgix/imgix-php": "^3.1"
     },
     "license": "BSD-3-Clause",
