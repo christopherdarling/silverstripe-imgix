@@ -127,7 +127,7 @@ class Imgix extends Image {
             return parent::CMSThumbnail();
         }
 
-        return $this->Pad($this->stat('cms_thumbnail_width'),$this->stat('cms_thumbnail_height'));
+        return $this->Pad($this->config()->get('cms_thumbnail_width'),$this->config()->get('cms_thumbnail_height'));
     }
 
     /**
@@ -141,7 +141,7 @@ class Imgix extends Image {
             return parent::CMSThumbnail();
         }
 
-        return $this->Fill($this->stat('strip_thumbnail_width'),$this->stat('strip_thumbnail_height'));
+        return $this->Fill($this->config()->get('strip_thumbnail_width'),$this->config()->get('strip_thumbnail_height'));
     }
 
     /**
