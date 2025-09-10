@@ -32,40 +32,6 @@ class Imgix extends Image {
 
     private static $use_imgix = true;
 
-    private static $casting = array(
-        'Tag' => 'HTMLText',
-    );
-
-    /**
-     * Return an XHTML img tag for this Image,
-     * or NULL if the image file doesn't exist on the filesystem.
-     *
-     * @return string
-     */
-    public function getTag()
-    {
-        if (Director::isDev() || !$this->config()->get('use_imgix')) {
-            return parent::getTag();
-        }
-
-        if($this->exists()) {
-            $url = $this->getURL();
-            $title = ($this->Title) ? $this->Title : $this->Filename;
-            if($this->Title) {
-                $title = Convert::raw2att($this->Title);
-            } else {
-                if(preg_match("/([^\/]*)\.[a-zA-Z0-9]{1,6}$/", $title, $matches)) {
-                    $title = Convert::raw2att($matches[1]);
-                }
-            }
-            if ($this->responsive) {
-                $this->responsive = false; // reset for next image
-                return "<img ix-src=\"$url\" alt=\"$title\" />";
-            }
-            return "<img src=\"$url\" alt=\"$title\" />";
-        }
-    }
-
     /**
      * Return an XHTML img tag for this Image.
      *
